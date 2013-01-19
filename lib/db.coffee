@@ -26,7 +26,7 @@ exports.Db = class Db
         callback err, rows
     else
       err = "Error: No id defined"
-      callback err, ""
+      callback err, null
       
   test: (callback) ->
     @mysql.query "SELECT 1", (err, rows) ->

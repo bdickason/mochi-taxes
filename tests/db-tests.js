@@ -35,7 +35,7 @@
   });
 
   describe('Get a single transaction', function() {
-    return it('Should return a known transaction', function(done) {
+    it('Should return a known transaction', function(done) {
       var sampleRow, sampleTransactionID;
       sampleTransactionID = 1;
       sampleRow = {
@@ -52,6 +52,16 @@
         row.transaction_payment_type.should.equal(sampleRow.transaction_payment_type);
         row.transaction_void.should.equal(sampleRow.transaction_void);
         row.transaction_total.should.equal(sampleRow.transaction_total);
+        return done();
+      });
+    });
+    return it('Should error out if no id is provided', function(done) {
+      var sampleTransactionID;
+      sampleTransactionID = null;
+      return db.getTransaction(sampleTransactionID, function(err, callback) {
+        should.exist.err;
+        err.should.equal("Error: No id defined");
+        should.not.exist(callback);
         return done();
       });
     });

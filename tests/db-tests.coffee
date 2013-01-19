@@ -39,3 +39,12 @@ describe 'Get a single transaction', ->
       row.transaction_total.should.equal sampleRow.transaction_total
       
       done()
+
+  it 'Should error out if no id is provided', (done) ->
+    sampleTransactionID = null
+    
+    db.getTransaction sampleTransactionID, (err, callback) ->
+      should.exist.err
+      err.should.equal "Error: No id defined"
+      should.not.exist callback
+      done()
