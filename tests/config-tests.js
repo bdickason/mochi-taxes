@@ -24,4 +24,27 @@
     });
   });
 
+  describe('DB Config', function() {
+    it('Should have a DB Hostname', function() {
+      var tmp;
+      tmp = cfg.DB_HOSTNAME;
+      return tmp.should.not.eql('');
+    });
+    it('Should have a DB Port number', function() {
+      var tmp;
+      tmp = cfg.DB_PORT;
+      return tmp.should.not.eql('');
+    });
+    it('Should have a DB Username', function() {
+      var tmp;
+      tmp = cfg.DB_USERNAME;
+      return tmp.should.not.eql('');
+    });
+    return it('Should have a DB Password', function() {
+      var tmp;
+      tmp = cfg.DB_PASSWORD;
+      return tmp.should.not.eql('');
+    });
+  });
+
 }).call(this);

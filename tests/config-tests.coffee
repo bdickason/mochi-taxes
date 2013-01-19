@@ -12,3 +12,21 @@ describe 'Server Config', ->
   it 'Should have a port number', ->
     tmp = cfg.PORT
     tmp.should.not.eql ''
+    
+
+describe 'DB Config', ->
+  it 'Should have a DB Hostname', ->
+    tmp = cfg.DB_HOSTNAME
+    tmp.should.not.eql ''
+  
+  it 'Should have a DB Port number', ->
+    tmp = cfg.DB_PORT
+    tmp.should.not.eql ''
+    
+  it 'Should have a DB Username', ->
+    tmp = cfg.DB_USERNAME
+    tmp.should.not.eql ''
+    
+  it 'Should have a DB Password', ->
+    tmp = cfg.DB_PASSWORD
+    tmp.should.not.eql ''
