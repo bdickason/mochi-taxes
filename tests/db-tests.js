@@ -22,12 +22,36 @@
   describe('Connect to MySQL server', function() {
     return it('Should return a basic query', function(done) {
       return db.test(function(err, callback) {
-        var sampleRow;
+        var row, sampleRow;
         sampleRow = JSON.stringify({
           '1': 1
         });
+        row = callback[0];
         should.not.exist(err);
-        JSON.stringify(callback[0]).should.equal(sampleRow);
+        JSON.stringify(row).should.equal(sampleRow);
+        return done();
+      });
+    });
+  });
+
+  describe('Get a single transaction', function() {
+    return it('Should return a known transaction', function(done) {
+      var sampleRow, sampleTransactionID;
+      sampleTransactionID = 1;
+      sampleRow = {
+        transaction_id: 1,
+        transaction_payment_type: "visa",
+        transaction_void: 0,
+        transaction_total: 4.90
+      };
+      return db.getTransaction(sampleTransactionID, function(err, callback) {
+        var row;
+        should.not.exist(err);
+        row = callback[0];
+        row.transaction_id.should.equal(sampleRow.transaction_id);
+        row.transaction_payment_type.should.equal(sampleRow.transaction_payment_type);
+        row.transaction_void.should.equal(sampleRow.transaction_void);
+        row.transaction_total.should.equal(sampleRow.transaction_total);
         return done();
       });
     });

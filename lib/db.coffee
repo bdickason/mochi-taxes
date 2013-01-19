@@ -16,6 +16,17 @@ exports.Db = class Db
     @mysql.connect (err) ->
       if err
         console.log "Error: " + err
+
+  getTransaction: (id, callback) ->
+    if id
+      @mysql.query "Select * FROM transactions WHERE transaction_id = #{id}", (err, rows) ->
+        if err
+          console.log "Error: " + err
+      
+        callback err, rows
+    else
+      err = "Error: No id defined"
+      callback err, ""
       
   test: (callback) ->
     @mysql.query "SELECT 1", (err, rows) ->
