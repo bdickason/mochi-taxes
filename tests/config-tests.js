@@ -40,9 +40,14 @@
       tmp = cfg.DB_USERNAME;
       return tmp.should.not.eql('');
     });
-    return it('Should have a DB Password', function() {
+    it('Should have a DB Password', function() {
       var tmp;
       tmp = cfg.DB_PASSWORD;
+      return tmp.should.not.eql('');
+    });
+    return it('Should have a DB Database', function() {
+      var tmp;
+      tmp = cfg.DB_DATABASE;
       return tmp.should.not.eql('');
     });
   });

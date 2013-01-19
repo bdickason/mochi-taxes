@@ -30,3 +30,7 @@ describe 'DB Config', ->
   it 'Should have a DB Password', ->
     tmp = cfg.DB_PASSWORD
     tmp.should.not.eql ''
+  
+  it 'Should have a DB Database', ->
+    tmp = cfg.DB_DATABASE
+    tmp.should.not.eql ''

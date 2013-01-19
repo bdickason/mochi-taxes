@@ -12,7 +12,7 @@
 
   exports.DB_HOSTNAME = process.env.DB_HOSTNAME || 'localhost';
 
-  exports.DB_PORT = process.env.DB_PORT || '3306';
+  exports.DB_PORT = process.env.DB_PORT || '3307';
 
   exports.DB_USERNAME = process.env.DB_USERNAME || '';
 

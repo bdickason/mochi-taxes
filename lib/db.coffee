@@ -19,5 +19,7 @@ exports.Db = class Db
       
   test: (callback) ->
     @mysql.query "SELECT 1", (err, rows) ->
-      console.log "Error: " + err
+      if err
+        console.log "Error: " + err
+        
       callback err, rows
