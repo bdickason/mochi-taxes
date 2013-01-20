@@ -28,7 +28,8 @@ exports.Db = class Db
       err = "Error: No id defined"
       callback err, null
 
-  getTaxByQuarter: (startDate, endDate, giftCards, callback) ->
+  getTaxByQuarter: (startDate, endDate, giftCards, voided, callback) ->
+    console.log "Voided: " + voided
     if startDate and endDate
       query = "
       SELECT te.transaction_entry_type as type, SUM( te.transaction_entry_price_added ) as total 
@@ -36,8 +37,11 @@ exports.Db = class Db
       INNER JOIN transactions as t
       ON t.transaction_id = te.transaction_id
       WHERE te.transaction_entry_date_added >= '#{startDate} 00:00:01'
-      AND te.transaction_entry_date_added < '#{endDate} 00:00:01'
-      AND t.transaction_void != 1 "
+      AND te.transaction_entry_date_added < '#{endDate} 00:00:01' "
+      
+      if voided
+        console.log "voided!"
+        query += " AND t.transaction_void != 1 "
 
       if giftCards
         query += "AND ! ( te.transaction_entry_type =  'service'
@@ -48,6 +52,8 @@ exports.Db = class Db
         AND te.transaction_entry_uid =  '3704' ) "
         
       query += "GROUP BY te.transaction_entry_type"
+      
+      console.log query
       
       # console.log query
       @mysql.query query, (err, rows) ->

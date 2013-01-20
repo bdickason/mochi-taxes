@@ -56,6 +56,7 @@ describe 'Get a group of transaction entries by date', ->
     sampleStartDate = "2012-06-01 00:00:01"
     sampleEndDate = "2012-09-01 00:00:01"
     sampleGiftCards = false
+    sampleVoided = true
     
     sampleRow = { 
       transaction_id: 1,
@@ -64,7 +65,7 @@ describe 'Get a group of transaction entries by date', ->
       transaction_total: 4.90
     }
     
-    db.getTaxByQuarter sampleStartDate, sampleEndDate, sampleGiftCards, (err, callback) ->
+    db.getTaxByQuarter sampleStartDate, sampleEndDate, sampleGiftCards, sampleVoided, (err, callback) ->
       should.not.exist err
       rows = callback
       rows[0].type.should.equal 'service'
@@ -79,8 +80,9 @@ describe 'Get a group of transaction entries by date', ->
     sampleStartDate = null
     sampleEndDate = "blah"
     sampleGiftCards = false
+    sampleVoided = false
 
-    db.getTaxByQuarter sampleStartDate, sampleEndDate, sampleGiftCards, (err, callback) ->
+    db.getTaxByQuarter sampleStartDate, sampleEndDate, sampleGiftCards, sampleVoided, (err, callback) ->
       should.exist.err
       err.should.equal "Error: No start date defined"
       should.not.exist callback
@@ -90,8 +92,9 @@ describe 'Get a group of transaction entries by date', ->
     sampleStartDate = "blah"
     sampleEndDate = null
     sampleGiftCards = false
+    sampleVoided = false
 
-    db.getTaxByQuarter sampleStartDate, sampleEndDate, sampleGiftCards, (err, callback) ->
+    db.getTaxByQuarter sampleStartDate, sampleEndDate, sampleGiftCards, sampleVoided, (err, callback) ->
       should.exist.err
       err.should.equal "Error: No end date defined"
       should.not.exist callback
