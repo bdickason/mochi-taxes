@@ -28,18 +28,29 @@ exports.Db = class Db
       err = "Error: No id defined"
       callback err, null
 
-  getTaxByQuarter: (startDate, endDate, callback) ->
+  getTaxByQuarter: (startDate, endDate, giftCards, callback) ->
     if startDate and endDate
-      @mysql.query "
+      query = "
       SELECT te.transaction_entry_type as type, SUM( te.transaction_entry_price_added ) as total 
       FROM `transactions_entries` as te
       INNER JOIN transactions as t
       ON t.transaction_id = te.transaction_id
-      WHERE te.transaction_entry_date_added >= '#{startDate}'
-      AND te.transaction_entry_date_added < '#{endDate}'
-      AND t.transaction_void != 1
-      GROUP BY te.transaction_entry_type
-      ", (err, rows) ->
+      WHERE te.transaction_entry_date_added >= '#{startDate} 00:00:01'
+      AND te.transaction_entry_date_added < '#{endDate} 00:00:01'
+      AND t.transaction_void != 1 "
+
+      if giftCards
+        query += "AND ! ( te.transaction_entry_type =  'service'
+        AND (
+        te.transaction_entry_service_id =  '11'
+        OR te.transaction_entry_service_id =  '9'
+        )
+        AND te.transaction_entry_uid =  '3704' ) "
+        
+      query += "GROUP BY te.transaction_entry_type"
+      
+      # console.log query
+      @mysql.query query, (err, rows) ->
         if err
           console.log 'Error: ' + err
       

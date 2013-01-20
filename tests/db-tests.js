@@ -69,16 +69,17 @@
 
   describe('Get a group of transaction entries by date', function() {
     it('Should return a set of transaction entries given a start and end date', function(done) {
-      var sampleEndDate, sampleRow, sampleStartDate;
+      var sampleEndDate, sampleGiftCards, sampleRow, sampleStartDate;
       sampleStartDate = "2012-06-01 00:00:01";
       sampleEndDate = "2012-09-01 00:00:01";
+      sampleGiftCards = false;
       sampleRow = {
         transaction_id: 1,
         transaction_payment_type: "visa",
         transaction_void: 0,
         transaction_total: 4.90
       };
-      return db.getTaxByQuarter(sampleStartDate, sampleEndDate, function(err, callback) {
+      return db.getTaxByQuarter(sampleStartDate, sampleEndDate, sampleGiftCards, function(err, callback) {
         var rows;
         should.not.exist(err);
         rows = callback;
@@ -90,10 +91,11 @@
       });
     });
     it('Should error out if no start date is provided', function(done) {
-      var sampleEndDate, sampleStartDate;
+      var sampleEndDate, sampleGiftCards, sampleStartDate;
       sampleStartDate = null;
       sampleEndDate = "blah";
-      return db.getTaxByQuarter(sampleStartDate, sampleEndDate, function(err, callback) {
+      sampleGiftCards = false;
+      return db.getTaxByQuarter(sampleStartDate, sampleEndDate, sampleGiftCards, function(err, callback) {
         should.exist.err;
         err.should.equal("Error: No start date defined");
         should.not.exist(callback);
@@ -101,10 +103,11 @@
       });
     });
     return it('Should error out if no end date is provided', function(done) {
-      var sampleEndDate, sampleStartDate;
+      var sampleEndDate, sampleGiftCards, sampleStartDate;
       sampleStartDate = "blah";
       sampleEndDate = null;
-      return db.getTaxByQuarter(sampleStartDate, sampleEndDate, function(err, callback) {
+      sampleGiftCards = false;
+      return db.getTaxByQuarter(sampleStartDate, sampleEndDate, sampleGiftCards, function(err, callback) {
         should.exist.err;
         err.should.equal("Error: No end date defined");
         should.not.exist(callback);

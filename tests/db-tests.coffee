@@ -55,6 +55,7 @@ describe 'Get a group of transaction entries by date', ->
     # Stub Data
     sampleStartDate = "2012-06-01 00:00:01"
     sampleEndDate = "2012-09-01 00:00:01"
+    sampleGiftCards = false
     
     sampleRow = { 
       transaction_id: 1,
@@ -63,7 +64,7 @@ describe 'Get a group of transaction entries by date', ->
       transaction_total: 4.90
     }
     
-    db.getTaxByQuarter sampleStartDate, sampleEndDate, (err, callback) ->
+    db.getTaxByQuarter sampleStartDate, sampleEndDate, sampleGiftCards, (err, callback) ->
       should.not.exist err
       rows = callback
       rows[0].type.should.equal 'service'
@@ -77,8 +78,9 @@ describe 'Get a group of transaction entries by date', ->
   it 'Should error out if no start date is provided', (done) ->
     sampleStartDate = null
     sampleEndDate = "blah"
+    sampleGiftCards = false
 
-    db.getTaxByQuarter sampleStartDate, sampleEndDate, (err, callback) ->
+    db.getTaxByQuarter sampleStartDate, sampleEndDate, sampleGiftCards, (err, callback) ->
       should.exist.err
       err.should.equal "Error: No start date defined"
       should.not.exist callback
@@ -87,8 +89,9 @@ describe 'Get a group of transaction entries by date', ->
   it 'Should error out if no end date is provided', (done) ->
     sampleStartDate = "blah"
     sampleEndDate = null
+    sampleGiftCards = false
 
-    db.getTaxByQuarter sampleStartDate, sampleEndDate, (err, callback) ->
+    db.getTaxByQuarter sampleStartDate, sampleEndDate, sampleGiftCards, (err, callback) ->
       should.exist.err
       err.should.equal "Error: No end date defined"
       should.not.exist callback
