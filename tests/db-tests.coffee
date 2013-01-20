@@ -48,3 +48,48 @@ describe 'Get a single transaction', ->
       err.should.equal "Error: No id defined"
       should.not.exist callback
       done()
+
+describe 'Get a group of transaction entries by date', ->
+      
+  it 'Should return a set of transaction entries given a start and end date', (done) ->
+    # Stub Data
+    sampleStartDate = "2012-06-01 00:00:01"
+    sampleEndDate = "2012-09-01 00:00:01"
+    
+    sampleRow = { 
+      transaction_id: 1,
+      transaction_payment_type: "visa",
+      transaction_void: 0,
+      transaction_total: 4.90
+    }
+    
+    db.getTaxByQuarter sampleStartDate, sampleEndDate, (err, callback) ->
+      should.not.exist err
+      rows = callback
+      rows[0].type.should.equal 'service'
+      rows[0].total.should.equal 154196
+      rows[1].type.should.equal 'product'
+      rows[1].total.should.equal 18249.45
+
+      done()
+
+  
+  it 'Should error out if no start date is provided', (done) ->
+    sampleStartDate = null
+    sampleEndDate = "blah"
+
+    db.getTaxByQuarter sampleStartDate, sampleEndDate, (err, callback) ->
+      should.exist.err
+      err.should.equal "Error: No start date defined"
+      should.not.exist callback
+      done()
+
+  it 'Should error out if no end date is provided', (done) ->
+    sampleStartDate = "blah"
+    sampleEndDate = null
+
+    db.getTaxByQuarter sampleStartDate, sampleEndDate, (err, callback) ->
+      should.exist.err
+      err.should.equal "Error: No end date defined"
+      should.not.exist callback
+      done()
