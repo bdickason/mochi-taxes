@@ -29,7 +29,6 @@ exports.Db = class Db
       callback err, null
 
   getTaxByQuarter: (startDate, endDate, giftCards, voided, callback) ->
-    console.log "Voided: " + voided
     if startDate and endDate
       query = "
       SELECT te.transaction_entry_type as type, SUM( te.transaction_entry_price_added ) as total 
@@ -40,7 +39,6 @@ exports.Db = class Db
       AND te.transaction_entry_date_added < '#{endDate} 00:00:01' "
       
       if voided
-        console.log "voided!"
         query += " AND t.transaction_void != 1 "
 
       if giftCards
@@ -53,9 +51,6 @@ exports.Db = class Db
         
       query += "GROUP BY te.transaction_entry_type"
       
-      console.log query
-      
-      # console.log query
       @mysql.query query, (err, rows) ->
         if err
           console.log 'Error: ' + err

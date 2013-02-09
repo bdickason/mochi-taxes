@@ -71,7 +71,7 @@ describe 'Get a group of transaction entries by date', ->
       rows[0].type.should.equal 'service'
       rows[0].total.should.equal 154196
       rows[1].type.should.equal 'product'
-      rows[1].total.should.equal 18249.45
+      rows[1].total.should.equal 18230.95
 
       done()
 
