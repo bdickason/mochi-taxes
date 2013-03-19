@@ -161,4 +161,34 @@
     });
   });
 
+  describe('Q4 2012 (Dec 1 2012 - Feb 28 2013)', function() {
+    return it('Total should equal $', function(done) {
+      var earlyPayment, endDate, giftCards, retailTotal, serviceTotal, startDate, taxTotal, voided;
+      startDate = "2012-12-01";
+      endDate = "2013-03-01";
+      giftCards = true;
+      voided = true;
+      earlyPayment = true;
+      serviceTotal = 129725.50;
+      retailTotal = 17227.99;
+      taxTotal = 7166.63;
+      return db.getTaxByQuarter(startDate, endDate, giftCards, voided, function(err, callback) {
+        var rows, tax;
+        should.not.exist(err);
+        should.exist(callback);
+        rows = callback;
+        rows[0].type.should.equal('service');
+        rows[0].total.should.equal(serviceTotal);
+        rows[1].type.should.equal('product');
+        rows[1].total.should.equal(retailTotal);
+        tax = Math.round(((rows[0].total * serviceTaxRate) + (rows[1].total * retailTaxRate)) * 100) / 100;
+        if (earlyPayment) {
+          tax -= 200;
+        }
+        taxTotal.should.equal(tax);
+        return done();
+      });
+    });
+  });
+
 }).call(this);

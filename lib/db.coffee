@@ -51,6 +51,8 @@ exports.Db = class Db
         
       query += "GROUP BY te.transaction_entry_type"
       
+      console.log query
+      
       @mysql.query query, (err, rows) ->
         if err
           console.log 'Error: ' + err
